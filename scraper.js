@@ -34,12 +34,14 @@ const getGuidedReadingLevel = async (title) => {
 
   const data = containers[0].attribs
 
+  await browser.close();
+
+
   if (data.level === "") {
     console.log('First result has no GR level, returning null');
     return null;
   }
 
-  browser.close();
 
   console.log(`GR level for ${title} is ${data.level}`);
 
