@@ -39,6 +39,8 @@ const getGuidedReadingLevel = async (title) => {
     return null;
   }
 
+  browser.close();
+
   console.log(`GR level for ${title} is ${data.level}`);
 
   return data.level;
