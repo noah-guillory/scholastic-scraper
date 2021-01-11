@@ -1,0 +1,35 @@
+
+const puppeteer = require('puppeteer');
+const $ = require('cheerio');
+const SCHOLASTIC_BOOK_WIZARD_BASE_URL = 'https://www.scholastic.com/teachers/bookwizard/?search=1&filters=&prefilter=books&text=';
+
+const createSearchUrl = title => {
+  return `${SCHOLASTIC_BOOK_WIZARD_BASE_URL}${encodeURIComponent(title)}`;
+}
+
+const getGuidedReadingLevel = async (title) => {
+  const browser = await puppeteer.launch();
+
+  const page = await browser.newPage();
+
+  await page.goto(createSearchUrl(title));
+
+  const content = await page.content();
+
+
+
+
+  const results = $('.results-non-mobile', content)
+
+  const containers = results.find('card-container');
+
+  if (containers.length === 0) return null;
+
+  const data = containers[0].attribs
+
+  return data.level !== ""  ? data.level: null ;
+}
+
+module.exports = {
+  getGuidedReadingLevel,
+}
