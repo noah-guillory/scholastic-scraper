@@ -13,6 +13,7 @@ app.post('/search/guided-reading', async (req, res) => {
   const level = await getGuidedReadingLevel(title);
 
   res.json({
+    title,
     level,
   })
 })
