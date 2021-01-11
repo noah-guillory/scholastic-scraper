@@ -8,6 +8,8 @@ app.use(express.json());
 app.post('/search/guided-reading', async (req, res) => {
   const { title } = req.body;
 
+  console.log(`Retrieving GR level for ${title}`)
+
   const level = await getGuidedReadingLevel(title);
 
   res.json({

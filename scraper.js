@@ -23,11 +23,20 @@ const getGuidedReadingLevel = async (title) => {
 
   const containers = results.find('card-container');
 
+  console.log(`Found ${containers.length} results`);
+
   if (containers.length === 0) return null;
 
   const data = containers[0].attribs
 
-  return data.level !== ""  ? data.level: null ;
+  if (data.level === "") {
+    console.log('First result has no GR level, returning null');
+    return null;
+  }
+
+  console.log(`GR level for ${title} is ${data.level}`);
+
+  return data.level;
 }
 
 module.exports = {
