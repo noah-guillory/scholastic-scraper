@@ -8,7 +8,12 @@ const createSearchUrl = title => {
 }
 
 const getGuidedReadingLevel = async (title) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    args: [  "--incognito",
+    "--no-sandbox",
+    "--single-process",
+    "--no-zygote"]
+  });
 
   const page = await browser.newPage();
 
