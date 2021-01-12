@@ -1,6 +1,7 @@
 const chromium = require('chrome-aws-lambda');
 const googleSheets = require('./sheets')
 const scraper = require('./scraper');
+const { delay } = require('./utils');
 const AWS = require('aws-sdk');
 
 const lambda = new AWS.Lambda({
@@ -12,12 +13,14 @@ module.exports.startScrapes = async (event) => {
 
   const books = await sheets.getAllBooks();
 
-  books.forEach(book => {
+  books.forEach(async book => {
     const params = {
       FunctionName: 'scholastic-scraper-dev-get_guided_reading_level',
       InvocationType: 'RequestResponse',
       Payload: JSON.stringify(book)
     };
+
+    await delay(1000);
 
     return lambda.invoke(params, (error, data) => {
       if (error) {
@@ -27,7 +30,11 @@ module.exports.startScrapes = async (event) => {
         console.log(data);
       }
     })
-  })
+  });
+
+  return {
+    statusCode: 200,
+  }
 }
 
 module.exports.getGuidedReadingLevel = async (book) => {

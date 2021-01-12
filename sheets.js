@@ -1,7 +1,6 @@
 const { GoogleSpreadsheet } = require("google-spreadsheet");
 
-const delay = interval => new Promise(resolve => setTimeout(resolve, interval));
-
+const { delay } = require('./utils');
 
 const init = async () => {
   const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
