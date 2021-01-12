@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "chrome-launcher": "^0.13.4",
-    "serverless-dotenv-plugin": "^3.1.0",
     "serverless-offline": "^6.8.0"
   }
 }

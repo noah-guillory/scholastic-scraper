@@ -20,9 +20,15 @@ org: nguillory
 # Check out our docs for more details
 frameworkVersion: '2'
 
+environment:
+  GOOGLE_SERVICE_ACCOUNT_EMAIL: ${param:googleServiceAccountEmail}
+  GOOGLE_PRIVATE_KEY: ${param:googlePrivateKey}
+  SHEET_ID: ${param:sheetId}
+  SHEET_NAME=: ${param:sheetName}
+  DEBUG: true 
+
 plugins:
   - serverless-offline
-  - serverless-dotenv-plugin
 
 provider:
   name: aws
@@ -39,8 +45,6 @@ provider:
 package:
   exclude:
     - node_modules/puppeteer/.local-chromium/**
-
-useDotenv: true
 
 functions:
   start_scraping_title:
