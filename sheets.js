@@ -16,7 +16,7 @@ const getAllBooks = async () => {
   const bookRows = await sheet.getRows();
 
   return bookRows
-  .filter(row => row.Level !== '-')
+  .filter(row => row.Level !== '-' && row.Level === undefined)
   .map(row => ({
     title: row.Title,
     rowNumber: row.rowNumber,
