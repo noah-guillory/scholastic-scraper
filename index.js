@@ -1,6 +1,6 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
-const { getGuidedReadingLevel } = require('./scraper');
+const { getGuidedReadingLevel, getMultipleLevels } = require('./scraper');
 
 const app = express();
 app.use(express.json());
@@ -16,6 +16,16 @@ app.post('/search/guided-reading', async (req, res) => {
     title,
     level,
   })
+})
+
+app.post('/search/guided-reading-batch', async (req, res) => {
+  const { titles } = req.body;
+
+  console.log('Retrieving GR levels for ' + titles.length  + ' titles');
+
+  const levels = await getMultipleLevels(titles);
+
+  res.json(levels);
 })
 
 const port = process.env.PORT || 8080;

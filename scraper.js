@@ -7,21 +7,36 @@ const createSearchUrl = title => {
   return `${SCHOLASTIC_BOOK_WIZARD_BASE_URL}${encodeURIComponent(title)}`;
 }
 
-const getGuidedReadingLevel = async (title) => {
+const getMultipleLevels = async (titles) => {
   const browser = await puppeteer.launch({
-    args: [  "--incognito",
+    args: [  
     "--no-sandbox",
     "--single-process",
-    "--no-zygote"]
+    "--no-zygote"
+  ]
   });
 
   const page = await browser.newPage();
 
+  const levels = titles.map(title => {
+    getGuidedReadingLevel(title, page)
+  })
+
+  return levels;
+}
+
+const getGuidedReadingLevel = async (title, page) => {
+  console.log('Navigating to ' + createSearchUrl(title));
+
   await page.goto(createSearchUrl(title));
+
+  console.log('Getting page content');
 
   const content = await page.content();
 
 
+
+  console.log('Parsing contents')
 
 
   const results = $('.results-non-mobile', content)
@@ -39,15 +54,22 @@ const getGuidedReadingLevel = async (title) => {
 
   if (data.level === "") {
     console.log('First result has no GR level, returning null');
-    return null;
+    return {
+      title,
+      level: null,
+    };
   }
 
 
   console.log(`GR level for ${title} is ${data.level}`);
 
-  return data.level;
+  return {
+    title,
+    level: data.level,
+  }
 }
 
 module.exports = {
   getGuidedReadingLevel,
+  getMultipleLevels,
 }
