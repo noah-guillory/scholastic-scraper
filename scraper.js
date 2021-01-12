@@ -22,6 +22,8 @@ const getMultipleLevels = async (titles) => {
     getGuidedReadingLevel(title, page)
   })
 
+  await browser.close();
+
   return levels;
 }
 
@@ -48,8 +50,6 @@ const getGuidedReadingLevel = async (title, page) => {
   if (containers.length === 0) return null;
 
   const data = containers[0].attribs
-
-  await browser.close();
 
 
   if (data.level === "") {
