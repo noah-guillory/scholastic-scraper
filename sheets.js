@@ -24,6 +24,9 @@ const getAllBooks = async () => {
 
 };
 
+const delay = interval => new Promise(resolve => setTimeout(resolve, interval));
+
+
 const writeLevelsToSheet = async (books) => {
   const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
 
@@ -48,6 +51,7 @@ const writeLevelsToSheet = async (books) => {
       matchingRow.Level = book.level ? book.level : '-',
       await matchingRow.save();
     }
+    await delay(1000);
   }
 
 }
