@@ -18,9 +18,12 @@ const getMultipleLevels = async (titles) => {
 
   const page = await browser.newPage();
 
-  const levels = titles.map(title => {
-    getGuidedReadingLevel(title, page)
-  })
+  const levels = [];
+
+  for (const title of titles) {
+    const level = getGuidedReadingLevel(title, page);
+    levels.push(level);
+  }
 
   await browser.close();
 
