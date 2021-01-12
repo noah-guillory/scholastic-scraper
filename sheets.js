@@ -43,9 +43,11 @@ const writeLevelsToSheet = async (books) => {
 
   for (const book of books) {
     const matchingRow = bookRows.find(sheetRow => book.rowNumber === sheetRow.rowNumber);
-    console.log('Found matching for ' + book.title);
-    matchingRow.Level = book.level ? book.level : '-',
-    await matchingRow.save();
+    if (matchingRow) {
+      console.log('Found matching for ' + book.title);
+      matchingRow.Level = book.level ? book.level : '-',
+      await matchingRow.save();
+    }
   }
 
 }
