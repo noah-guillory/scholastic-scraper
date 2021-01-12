@@ -21,7 +21,7 @@ const getMultipleLevels = async (titles) => {
   const levels = [];
 
   for (const title of titles) {
-    const level = getGuidedReadingLevel(title, page);
+    const level = await getGuidedReadingLevel(title, page);
     levels.push(level);
   }
 
