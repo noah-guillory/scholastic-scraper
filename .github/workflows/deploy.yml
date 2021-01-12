@@ -11,6 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - run: yarn install
+
     - name: Create env file
       run: |
         touch .env
@@ -20,13 +27,6 @@ jobs:
         echo SHEET_NAME=${{ secrets.SHEET_NAME }} >> .env
         echo DEBUG=true >> .env
 
-
-    - uses: actions/checkout@v2
-    - name: Use Node.js 12
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
-    - run: yarn install
     - name: serverless deploy
       uses: serverless/github-action@master
       with:
