@@ -11,7 +11,7 @@ const getAllBooks = async () => {
 
   await doc.loadInfo(); // loads document properties and worksheets
 
-  const sheet = doc.sheetsByTitle['Book List Test'];
+  const sheet = doc.sheetsByTitle[process.env.SHEET_NAME];
 
   const bookRows = await sheet.getRows();
 
@@ -45,7 +45,6 @@ const writeLevelsToSheet = async (books) => {
     const matchingRow = bookRows.find(sheetRow => book.rowNumber === sheetRow.rowNumber);
     console.log('Found matching for ' + book.title);
     matchingRow.Level = book.level ? book.level : '-',
-    console.log(matchingRow);
     await matchingRow.save();
   }
 
