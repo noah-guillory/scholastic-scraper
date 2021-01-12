@@ -33,7 +33,7 @@ provider:
     Action:
       - lambda:InvokeFunction
     Resource: "*"
-  timeout: 30
+  timeout: 29
   
 
 package:
