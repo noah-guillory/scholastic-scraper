@@ -13,6 +13,20 @@ jobs:
       matrix:
         node-version: [12.x]
     steps:
+
+
+    - uses: SpicyPizza/create-envfile@v1
+      name: Make envfile
+      with:
+        envkey_GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+        envkey_GOOGLE_PRIVATE_KEY: ${{ secrets.GOOGLE_PRIVATE_KEY }}
+        envkey_SHEET_ID: ${{ secrets.SHEET_ID }}
+        envkey_SHEET_NAME: ${{ secrets.SHEET_NAME }}
+        envkey_DEBUG: true
+        directory: "."
+        file_name: .env
+
+
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
