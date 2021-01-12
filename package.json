@@ -7,13 +7,20 @@
   },
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.825.0",
     "cheerio": "^1.0.0-rc.5",
+    "chrome-aws-lambda": "^5.5.0",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
     "google-spreadsheet": "^3.1.15",
-    "puppeteer": "^5.5.0"
+    "puppeteer-core": "^5.5.0",
+    "superagent": "^6.1.0"
   },
   "scripts": {
     "start": "node index.js"
+  },
+  "devDependencies": {
+    "chrome-launcher": "^0.13.4",
+    "serverless-dotenv-plugin": "^3.1.0",
+    "serverless-offline": "^6.8.0"
   }
 }

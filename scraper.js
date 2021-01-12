@@ -1,5 +1,4 @@
 
-const puppeteer = require('puppeteer');
 const $ = require('cheerio');
 const SCHOLASTIC_BOOK_WIZARD_BASE_URL = 'https://www.scholastic.com/teachers/bookwizard/?search=1&filters=&prefilter=books&text=';
 
@@ -7,28 +6,28 @@ const createSearchUrl = title => {
   return `${SCHOLASTIC_BOOK_WIZARD_BASE_URL}${encodeURIComponent(title)}`;
 }
 
-const getMultipleLevels = async (books) => {
-  const browser = await puppeteer.launch({
-    args: [  
-    "--no-sandbox",
-    "--single-process",
-    "--no-zygote"
-  ]
-  });
+// const getMultipleLevels = async (books) => {
+//   const browser = await puppeteer.launch({
+//     args: [  
+//     "--no-sandbox",
+//     "--single-process",
+//     "--no-zygote"
+//   ]
+//   });
 
-  const page = await browser.newPage();
+//   const page = await browser.newPage();
 
-  const levels = [];
+//   const levels = [];
 
-  for (const book of books) {
-    const level = await getGuidedReadingLevel(book, page);
-    levels.push(level);
-  }
+//   for (const book of books) {
+//     const level = await getGuidedReadingLevel(book, page);
+//     levels.push(level);
+//   }
 
-  await browser.close();
+//   await browser.close();
 
-  return levels.filter(level => level !== null);
-}
+//   return levels.filter(level => level !== null);
+// }
 
 const getGuidedReadingLevel = async (book, page) => {
   console.log('Navigating to ' + createSearchUrl(book.title));
@@ -77,5 +76,4 @@ const getGuidedReadingLevel = async (book, page) => {
 
 module.exports = {
   getGuidedReadingLevel,
-  getMultipleLevels,
 }
