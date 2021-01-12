@@ -34,7 +34,7 @@ const writeLevelsToSheet = async (books) => {
 
   await doc.loadInfo(); // loads document properties and worksheets
 
-  const sheet = doc.sheetsByTitle['Book List Test'];
+  const sheet = doc.sheetsByTitle[process.env.SHEET_NAME];
 
   const bookRows = await sheet.getRows();
 
