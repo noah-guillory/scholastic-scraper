@@ -7,7 +7,7 @@ const createSearchUrl = title => {
   return `${SCHOLASTIC_BOOK_WIZARD_BASE_URL}${encodeURIComponent(title)}`;
 }
 
-const getMultipleLevels = async (titles) => {
+const getMultipleLevels = async (books) => {
   const browser = await puppeteer.launch({
     args: [  
     "--no-sandbox",
@@ -20,20 +20,20 @@ const getMultipleLevels = async (titles) => {
 
   const levels = [];
 
-  for (const title of titles) {
-    const level = await getGuidedReadingLevel(title, page);
+  for (const book of books) {
+    const level = await getGuidedReadingLevel(book, page);
     levels.push(level);
   }
 
   await browser.close();
 
-  return levels;
+  return levels.filter(level => level !== null);
 }
 
-const getGuidedReadingLevel = async (title, page) => {
-  console.log('Navigating to ' + createSearchUrl(title));
+const getGuidedReadingLevel = async (book, page) => {
+  console.log('Navigating to ' + createSearchUrl(book.title));
 
-  await page.goto(createSearchUrl(title));
+  await page.goto(createSearchUrl(book.title));
 
   console.log('Getting page content');
 
@@ -50,7 +50,10 @@ const getGuidedReadingLevel = async (title, page) => {
 
   console.log(`Found ${containers.length} results`);
 
-  if (containers.length === 0) return null;
+  if (containers.length === 0) return {
+    ...book,
+    level: null,
+  };
 
   const data = containers[0].attribs
 
@@ -58,16 +61,16 @@ const getGuidedReadingLevel = async (title, page) => {
   if (data.level === "") {
     console.log('First result has no GR level, returning null');
     return {
-      title,
+      ...book,
       level: null,
     };
   }
 
 
-  console.log(`GR level for ${title} is ${data.level}`);
+  console.log(`GR level for ${book.title} is ${data.level}`);
 
   return {
-    title,
+    ...book,
     level: data.level,
   }
 }
