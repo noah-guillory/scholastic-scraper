@@ -22,6 +22,8 @@ module.exports.startScrapes = async (event) => {
 
     await delay(1000);
 
+    console.log('calling lambda with params', JSON.stringify(params, null, 2));
+
     return lambda.invoke(params, (error, data) => {
       if (error) {
         console.error(JSON.stringify(error))
