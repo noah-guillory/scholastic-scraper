@@ -33,10 +33,6 @@ module.exports.startScrapes = async (event) => {
       }
     })
   });
-
-  return {
-    statusCode: 200,
-  }
 }
 
 module.exports.getGuidedReadingLevel = async (book) => {
