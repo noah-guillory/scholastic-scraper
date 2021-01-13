@@ -9,31 +9,38 @@ const lambda = new AWS.Lambda({
 });
 
 module.exports.startScrapes = async (event) => {
-  const sheets = await googleSheets();
+  try {
+    const sheets = await googleSheets();
 
-  const books = await sheets.getAllBooks();
+    const books = await sheets.getAllBooks();
 
-  books.forEach(async book => {
-    const params = {
-      FunctionName: 'scholastic-scraper-dev-get_guided_reading_level',
-      InvocationType: 'RequestResponse',
-      Payload: JSON.stringify(book)
-    };
+    books.forEach(async book => {
+      const params = {
+        FunctionName: 'scholastic-scraper-dev-get_guided_reading_level',
+        InvocationType: 'RequestResponse',
+        Payload: JSON.stringify(book)
+      };
 
-    await delay(1000);
+      await delay(1000);
 
-    return lambda.invoke(params, (error, data) => {
-      if (error) {
-        console.error(JSON.stringify(error))
-        return new Error(`Error printing messages: ${JSON.stringify(error)}`);
-      } else if (data) {
-        console.log(data);
-      }
-    })
-  });
+      return lambda.invoke(params, (error, data) => {
+        if (error) {
+          console.error(JSON.stringify(error))
+          return new Error(`Error printing messages: ${JSON.stringify(error)}`);
+        } else if (data) {
+          console.log(data);
+        }
+      })
+    });
 
-  return {
-    statusCode: 200,
+    return {
+      statusCode: 200,
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      error,
+    }
   }
 }
 
